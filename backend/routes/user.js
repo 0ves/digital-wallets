@@ -3,9 +3,9 @@ const { string } = require("zod")
 const jwt_secret = require("../config.js")
 const { User } = require("../db.js")
 const router= express.router()
-const zod = required("zod")
-const jwt = required("jsonwebtoken")
-const middleware=required("../middleware.js")
+const zod = require("zod")
+const jwt = require("jsonwebtoken")
+const middleware=require("../middleware.js")
 
 const signupSchema= zod.object({
     usernam: zod.string(),

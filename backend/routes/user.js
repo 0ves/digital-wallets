@@ -22,7 +22,7 @@ const signinSchema = zod.object({
 const userupdateSchema = zod.object({
     	password: zod.string().optional(),
     firstName: zod.string().optional(),
-    lastName: zod.string().optional(),
+    lastName: zod.sytring().optional(),
 })
 
 const userbulkSchema = zod.object({

@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Heading_com(props) {
+function bottomwaring(props) {
   return (
     <div>{props}</div>
   )
 }
 
-export default Heading_com
+export default bottomwaring

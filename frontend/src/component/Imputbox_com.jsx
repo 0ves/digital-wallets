@@ -3,7 +3,7 @@ import React from 'react'
 function Inputbox_com(props) {
   return (
     <div>
-    <section>props.name</section>
+    <section>{props.name}</section>
     <input type="text" placeholder={props.placeholder} />
     </div>
   )

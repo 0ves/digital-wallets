@@ -2,7 +2,7 @@ import React from 'react'
 
 function Heading_com(props) {
   return (
-    <div>{props}</div>
+    <div>{props.name}</div>
   )
 }
 

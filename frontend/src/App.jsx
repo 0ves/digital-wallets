@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Signup from './signup'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <browserRouter>
+    <div>hello</div>
+      <Signup/>
+      {/* <browserRouter>
       <Routes>
 
         <Route path="/signup" element={<signup/>}/>
@@ -17,6 +17,8 @@ function App() {
         <Route path="/send" element={<sendMoney/>}/>
       </Routes>
       </browserRouter>
+             */}
+
     </>
   )
 }

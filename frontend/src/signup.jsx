@@ -1,24 +1,22 @@
 import React from 'react'
-import {Button} from "./component/Button.jsx"
-import {Imputbox_component} from "./component/Imputbox_com.jsx"
+import Button from "./component/Button.jsx"
+import Imputbox_component from "./component/Imputbox_com.jsx"
 import Heading_com from './component/Heading_com.jsx'
 import Subheading_com from './component/Subheading_com.jsx'
 
- function signup() {
+ export default function Signup() {
   return(
     <>
-    <div className=' flex '>
+    <div >
 
     <Heading_com name="Sign up"/>
-    <Subheading_com name="Enter your information"/>
-    <Imputbox_component placeholder="kanye" name="Name"/>
-    <Imputbox_component placeholder="wasim" name="Last Name"/>
+    <Subheading_com info="Enter your information"/>
+    <Imputbox_component name="Name" placeholder="kanye" />
+    <Imputbox_component name="Last Name" placeholder="wasim"/>
+        <Button name="signup"/>
     </div>
 
-        <Button name="signup"/>
 
     </>
   )
 };
-
-export default signup

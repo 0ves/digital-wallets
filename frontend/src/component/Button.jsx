@@ -1,7 +1,8 @@
 import react from "react"
 
-export default function Button(props){
+ function Button(props){
     return(
-        <button>{props}</button>
+        <button className="bg-white-300">{props.name}</button>
     )
 }
+export default Button;

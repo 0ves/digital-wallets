@@ -1,23 +1,24 @@
 import { useState } from 'react'
 import Signup from './signup'
-
+import SignupFormDemo from './components/signup-form-demo'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Signin from './components/sign-in';
+import Appbar  from './components/appbar';
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-    
-      <Signup/>
-      {/* <browserRouter>
-      <Routes>
-
-        <Route path="/signup" element={<signup/>}/>
-        <Route path="/signin" elemen={<signin/>}/>
-        <Route path="/dashboard" element={<dashboard/>}/>
-        <Route path="/send" element={<sendMoney/>}/>
-      </Routes>
-      </browserRouter>
-             */}
+    {/* <SignupFormDemo/> */}
+      <Router>
+        <Routes>
+          <Route path="/" element={<Signup/>}/>
+          <Route path="/signin" element={<Signin/>}/>
+          <Route path="/appbar" element={<Appbar/>}/>
+          <Route path="/signup" element={<SignupFormDemo/>}/>
+        </Routes>
+      </Router>
+            
 
     </>
   )

@@ -1,6 +1,6 @@
-const express = require("express")
+const express =require("express")
 
-const router = express.router()
+const router = express.Router()
 const userrouter=require("./user")
 const accountrouter= require("./account")
 

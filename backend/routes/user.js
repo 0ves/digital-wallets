@@ -1,11 +1,11 @@
-const express = required("express")
+const express = require("express")
 const { string } = require("zod")
 const jwt_secret = require("../config.js")
 const { User } = require("../db.js")
-const router= express.router()
+const router= express.Router()
 const zod = require("zod")
 const jwt = require("jsonwebtoken")
-const middleware=require("../middleware.js")
+const {authmiddleware}=require("../authMiddleware.js")
 
 const signupSchema= zod.object({
     usernam: zod.string(),
@@ -22,7 +22,7 @@ const signinSchema = zod.object({
 const userupdateSchema = zod.object({
     	password: zod.string().optional(),
     firstName: zod.string().optional(),
-    lastName: zod.sytring().optional(),
+    lastName: zod.string().optional(),
 })
 
 const userbulkSchema = zod.object({
@@ -90,7 +90,7 @@ router.post("/signup",async(req,res)=>{
         })
     })
 
-    router.put("/",middleware,async(req , res)=>{
+    router.put("/",authmiddleware,async(req , res)=>{
         const body = req.body;
         const {success}=userupdateSchema.safeParse(body)
         if (!success) {

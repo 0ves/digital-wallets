@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const jwt_secret = require("./config");
 
-const authmiddleware = (req , res, next)=>{
+function authmiddleware (req , res, next){
     const authheadr = req.headers.authantication;
     
     if(!authheadr || authheadr.startsWith('Bearer ')){

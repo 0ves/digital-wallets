@@ -2,7 +2,7 @@
 const mongoose = require("mongoose")
 mongoose.connect("mongodb+srv://ovesnadaf:tuW2yF1UDwW6hT5Y@clusterpayment.ebzfmhn.mongodb.net/")
 
-const accountSchema = new mangoose.Schema({
+const accountSchema = new mongoose.Schema({
     userid:{
         type:mongoose.Schema.Types.ObjectId,
         unique:true,
@@ -13,7 +13,7 @@ const accountSchema = new mangoose.Schema({
         required:true
     }
 })
-const userschema = new mongoose.Schema({
+const userschema =new mongoose.Schema({
     username:{
         type:String,
         required:true,

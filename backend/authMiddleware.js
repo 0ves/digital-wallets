@@ -2,12 +2,13 @@ const jwt = require("jsonwebtoken");
 const jwt_secret = require("./config");
 
 function authmiddleware (req , res, next){
-    const authheadr = req.headers.authantication;
+     const authHeader = req.headers.authorization;
+    console.log(authHeader);
     
-    if(!authheadr || authheadr.startsWith('Bearer ')){
-        return res.status(403).json({});
+    if(!authHeader || !authHeader.startsWith('Bearer ')){
+        return res.status(403).json({msg:"you are not authrized"});
     }
-    const token = authHedder.split(' '   )[1];
+    const token = authHeader.split(' '   )[1];
     try {
         const decode = jwt.verify(token, jwt_secret)
         if(decode.userId){

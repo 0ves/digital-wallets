@@ -3,8 +3,9 @@ const mongoose = require("mongoose")
 mongoose.connect("mongodb+srv://ovesnadaf:tuW2yF1UDwW6hT5Y@clusterpayment.ebzfmhn.mongodb.net/")
 
 const accountSchema = new mongoose.Schema({
-    userid:{
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
+        require:true,
         unique:true,
         ref:'User'
     },

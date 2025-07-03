@@ -1,13 +1,14 @@
 const express = require("express")
-const router = express.router()
-const middleware = require("../authMiddleware.js");
+const router = express.Router()
+const {authmiddleware} = require("../authMiddleware.js");
 const { Account } = require("../db.js");
 const { default: mongoose } = require("mongoose");
+const { transformer } = require("zod");
 // const zod = require("zod")
 
-router.get("/balance", middleware,async(req, res)=>{
+router.get("/balance", authmiddleware,async(req, res)=>{
     const account = await Account.findOne({
-        userid: req.id
+        userId: req.userId
     }) 
     if (!account){
         return res.status(403).json({
@@ -17,17 +18,17 @@ router.get("/balance", middleware,async(req, res)=>{
     
 
     res.json({
-        balence: account.balence
+        balence: account.balance
     })
 })
 
-router.post("/transfer",middleware,async(req,res)=>{
+router.post("/transfer",authmiddleware,async(req,res)=>{
     const session = await mongoose.startSession()
     session.startTransaction()
-    const [to , ammount] = req.body
+    const {to ,ammount} = req.body
 
-    const account = await Account.findOne({userid: req.userid}).session(session)
-    const toaccount = await Account.findOne({userid:to}).session(session) 
+    const account = await Account.findOne({userId: req.userId}).session(session)
+    const toaccount = await Account.findOne({userId:to}).session(session) 
 
     if(!toaccount){
         await session.abortTransaction()
@@ -36,16 +37,24 @@ router.post("/transfer",middleware,async(req,res)=>{
         })
 
     }
-    if ( !account||account.balence < ammount){
+    if ( !account||account.balance < ammount){
         await session.abortTransaction()
         return res.status(400).json({msg:"insufficient balence"})
     }
 
-    await Account.updatOne({userid:req.userid},{$inc:{balence:-ammount}}).session(session)
-    await Account.updatOne({userid:to},{$inc:{balence:ammount}}).session(session)
-    await session.commitTransaction()
+  await Account.updateOne({userId:req.userId},{$inc:{balance:-ammount}}).session(session)
+  await Account.updateOne({userId:to},{$inc:{balance:ammount}}).session(session)
+  const fromAccount=await Account.findOne({userId:req.userId}).session(session)
+  const toAccount= await Account.findOne({userId:to}).session(session)
+ 
+   
+    
+   await session.commitTransaction()
 
-    res.json({mes:"Transfer successfull"})
+    res.json({mes:"Transfer successfull" ,
+       
+        transformerd: ammount
+    })
 })
 
 module.exports=router;

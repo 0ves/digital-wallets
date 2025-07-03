@@ -8,6 +8,6 @@ app.use(express.json())
 
 app.use("/api/v1",mainrouter)
 
-app.listen(3000);
+app.listen(3000,()=>console.log("listing on 3000"));
 
 

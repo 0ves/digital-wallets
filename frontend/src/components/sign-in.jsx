@@ -36,7 +36,7 @@ export default function Signin() {
       console.log(response)
       alert(response.data.msg)
       localStorage.setItem('token',response.data.token)
-      // navigate('/appbar')
+      navigate('/appbar')
     }
        catch(error){
         // Axios provides robust error handling

@@ -21,8 +21,8 @@ const signinSchema = zod.object({
 
 const userupdateSchema = zod.object({
     	password: zod.string().optional(),
-    firstName: zod.string().optional(),
-    lastName: zod.string().optional(),
+    firstname: zod.string().optional(),
+    lastname: zod.string().optional(),
 })
 
 const userbulkSchema = zod.object({
@@ -130,6 +130,20 @@ router.post("/signup",async(req,res)=>{
         }
     })
 
+    router.get("/me", authmiddleware,async(req,res)=>{
+        const user = await User.findOne({_id:req.userId})
+        const account = await Account.findOne({userId: req.userId})
+        console.log(user.username);
+        console.log(account.balance);
+        console.log(user.username);
+        
+        res.json({username: user.username,
+                firstname: user.firstname,
+                lastname:user.lastname,
+                balance: account.balance
+        })
+    })
+
     router.get("/bulk",async(req, res)=>{
          const filter = req.query.filter || "";
         console.log(filter);
@@ -148,7 +162,7 @@ router.post("/signup",async(req,res)=>{
         res.json({
             users: users.map(user => ({
                 username:user.username,
-                firstName:user.firstname,
+                firstname:user.firstname,
             lastName: user.lastname,
             _id: user._id
             }))

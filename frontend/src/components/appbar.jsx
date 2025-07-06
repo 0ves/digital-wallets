@@ -55,7 +55,7 @@ function Appbar() {
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{firstname}</span>
           <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold dark:bg-blue-800 dark:text-white">
-            {firstname ? firstname.charAt([0,1]) : "?"}
+            {firstname ? firstname.substring(0,2) : "?"}
           </div>
         </div>
       </div>

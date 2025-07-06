@@ -11,7 +11,6 @@ import {
   IconBrandOnlyfans,
 } from "@tabler/icons-react";
 
-// import { log } from "node:console";
 
 export default function Signin() {
 
@@ -28,18 +27,34 @@ export default function Signin() {
 
     setError('')
     try {
-      const response =await axios.post("http://localhost:3000/api/vi/user/signin",
+      const response =await axios.post("http://localhost:3000/api/v1/user/signin",
         {
           username:username,
           password: password
         }
       )
-      navigate('/appbar')
-      //localStorage.setItem('token',Response.data.token)
-    } catch (error) {
-      console.log(error);
-      
+      console.log(response)
+      alert(response.data.msg)
+      localStorage.setItem('token',response.data.token)
+      // navigate('/appbar')
     }
+       catch(error){
+        // Axios provides robust error handling
+        if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Sign-in failed (server error):', error.response.data);
+        setError(error.response.data.msg || 'Failed to sign in.');
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Sign-in failed (no response):', error.request);
+        setError('No response from server. Check if backend is running.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up request:', error.message);
+        setError('An unexpected error occurred.');
+      }
+  }
   };
   return (
     <div

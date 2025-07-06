@@ -95,7 +95,7 @@ router.post("/signup",async(req,res)=>{
             username:data.username,
             password:data.password
         })
-        console.log(user);
+        // console.log(user);
         
         if (user) {
             const token= jwt.sign({

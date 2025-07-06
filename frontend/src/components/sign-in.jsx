@@ -1,22 +1,45 @@
 
-import React from "react";
+import React,{ useState } from "react";
+import axios from  "axios"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Link, Route, useNavigate } from "react-router-dom";
 import {
   IconBrandGithub,
   IconBrandGoogle,
   IconBrandOnlyfans,
 } from "@tabler/icons-react";
-import { Link, Route, useNavigate } from "react-router-dom";
+
+// import { log } from "node:console";
 
 export default function Signin() {
+
+  const [username , setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [error , setError] = useState("")
     const navigate = useNavigate()
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Form submitted");
-    navigate('/appbar')
-    
+    console.log(username);
+    console.log(password);
+
+    setError('')
+    try {
+      const response =await axios.post("http://localhost:3000/api/vi/user/signin",
+        {
+          username:username,
+          password: password
+        }
+      )
+      navigate('/appbar')
+      //localStorage.setItem('token',Response.data.token)
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
   return (
     <div
@@ -29,12 +52,16 @@ export default function Signin() {
         
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" placeholder="projectmayhem@fc.com" type="email" />
+          <Input id="email" placeholder="projectmayhem@fc.com" type="email"
+          value={username} onChange={(e)=> setUsername(e.target.value)} />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" placeholder="••••••••" type="password" />
+          <Input id="password" placeholder="••••••••"
+           type="password" value={password}
+            onChange={(e)=>setPassword(e.target.value)} />
         </LabelInputContainer>
+
         
 
         <button

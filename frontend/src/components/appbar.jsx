@@ -3,6 +3,7 @@ import apiClient from "../api/api";
 import { useState } from "react";
 import useDebounce from '../hooks/useDebounce'; 
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Appbar() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,8 @@ function Appbar() {
   const [balance, setbalance] = useState("");
   const [users, setUsers] = useState([]);
   const [search, setsearch] = useState("");
+
+  const navigate = useNavigate()
   const debouncedSearchTerm = useDebounce(search, 500);
 
   useEffect(() => {
@@ -42,6 +45,7 @@ function Appbar() {
         setbalance(respons.data.balance);
       } catch (error) {
         console.log(error);
+        navigate('/signin')
       }
     };
     fetchProfile();
@@ -95,6 +99,10 @@ function Appbar() {
                 >
                   <IdInfo name={user.username} />
                   <IdInfo name={user.firstname} />
+                  <div className=" flex justify-end">
+
+                  <button className=" mr-2 px-4 py-1 rounded-2xl font-mono bg-green-400 text-xl ">send</button>
+                  </div>
                 </div>
               ))}
             </div>

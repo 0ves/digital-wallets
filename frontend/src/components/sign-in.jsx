@@ -33,8 +33,8 @@ export default function Signin() {
           password: password
         }
       )
-      console.log(response)
-      alert(response.data.msg)
+      // console.log(response)
+      // alert(response.data.msg)
       localStorage.setItem('token',response.data.token)
       navigate('/appbar')
     }

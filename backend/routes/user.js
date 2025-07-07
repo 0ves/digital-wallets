@@ -159,10 +159,11 @@ router.post("/signup",async(req,res)=>{
             }
         }]
     })
+    
         res.json({
             users: users.map(user => ({
-                username:user.username,
-                firstname:user.firstname,
+            username:user.username,
+            firstname:user.firstname,
             lastName: user.lastname,
             _id: user._id
             }))

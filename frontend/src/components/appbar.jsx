@@ -5,13 +5,14 @@ import useDebounce from "../hooks/useDebounce";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Popup from "./popup";
+import { Button } from "./ui/stateful-button";
 
 function Appbar() {
   const [username, setUsername] = useState("");
   const [firstname, setfirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [balance, setbalance] = useState("");
-  
+
   const [users, setUsers] = useState([]);
   const [search, setsearch] = useState("");
 
@@ -30,6 +31,11 @@ function Appbar() {
   const navigate = useNavigate();
   const debouncedSearchTerm = useDebounce(search, 500);
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/signin")
+  };
+
   useEffect(() => {
     if (debouncedSearchTerm) {
       handleSearch();
@@ -46,11 +52,11 @@ function Appbar() {
         ammount: ammount,
       });
       console.log(respons.data);
-      handleClosePopUp()
-      alert(respons.data.mes)
+      handleClosePopUp();
+      alert(respons.data.mes);
     } catch (e) {
       console.log(e);
-      alert(e)
+      alert(e);
     }
   };
   const handleSearch = async () => {
@@ -90,6 +96,10 @@ function Appbar() {
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
             {firstname} {lastname}
+          </span>
+          <span>
+            {" "}
+            <Button onClick={logout} children={"Logout"} />{" "}
           </span>
           <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold dark:bg-blue-800 dark:text-white">
             {firstname ? firstname.substring(0, 2) : "?"}

@@ -13,6 +13,8 @@ function authmiddleware (req , res, next){
         const decode = jwt.verify(token, jwt_secret)
         if(decode.userId){
         req.userId = decode.userId;
+        console.log("this is userID :" ,decode.userId );
+        
         next();} 
         else{
             res.status(403).json({})

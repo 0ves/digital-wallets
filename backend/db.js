@@ -14,6 +14,26 @@ const accountSchema = new mongoose.Schema({
         required:true
     }
 })
+const transactionSchema = new mongoose.Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        require:true,
+        ref:'User'
+    },
+    touserId:{
+        type:mongoose.Schema.Types.ObjectId,
+        require:true,
+        ref:'User'
+    },
+    amount:{
+        type:Number,
+        require:true
+    }},
+    
+    { 
+    timestamps: true 
+  }
+)
 const userschema =new mongoose.Schema({
     username:{
         type:String,
@@ -44,8 +64,10 @@ const userschema =new mongoose.Schema({
 
 const User = mongoose.model('User',userschema)
 const Account = mongoose.model('Account',accountSchema) 
+const Transaction = mongoose.model('Transaction',transactionSchema)
 
 module.exports= {
     User,
-    Account
+    Account,
+    Transaction
 }

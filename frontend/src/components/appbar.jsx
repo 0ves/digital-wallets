@@ -6,6 +6,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Popup from "./popup";
 import { Button } from "./ui/stateful-button";
+import { Sliders } from "lucide-react";
+import Sidebar from "./Sidebar";
+import { sidebarOpenState, amountState ,transactionState } from "../recoil/uiAtoms";
+import { useRecoilState } from "recoil";
+import { Menu } from "lucide-react";
+import TransactionHistory from "./Transaction-history";
 
 function Appbar() {
   const [username, setUsername] = useState("");
@@ -17,7 +23,9 @@ function Appbar() {
   const [search, setsearch] = useState("");
 
   const [toAccount, setToaccount] = useState("");
-  const [ammount, setAmmount] = useState(0);
+  const [transaction ,setTransaction] = useRecoilState(transactionState)
+  const [amount, setAmount] = useRecoilState(amountState);
+  const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenState);
   const [showPopUp, setShowPopUp] = useState(false);
 
   const handleOpenPopUp = () => {
@@ -33,7 +41,7 @@ function Appbar() {
 
   const logout = () => {
     localStorage.removeItem("token");
-    navigate("/signin")
+    navigate("/signin");
   };
 
   useEffect(() => {
@@ -49,7 +57,7 @@ function Appbar() {
       const respons = await apiClient.post("/account/transfer", {
         to: toAccount,
 
-        ammount: ammount,
+        amount: amount,
       });
       console.log(respons.data);
       handleClosePopUp();
@@ -88,96 +96,118 @@ function Appbar() {
 
   return (
     <>
-      {/* Appbar */}
-      <div className="flex justify-between items-center px-6 py-4 shadow-md mx-auto w-full max-w-6xl bg-white rounded-xl mt-6 dark:bg-gray-900 transition-all">
-        <span className="text-2xl font-bold text-blue-600 dark:text-white">
-          Paymt
-        </span>
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-            {firstname} {lastname}
-          </span>
-          <span>
-            {" "}
-            <Button onClick={logout} children={"Logout"} />{" "}
-          </span>
-          <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold dark:bg-blue-800 dark:text-white">
-            {firstname ? firstname.substring(0, 2) : "?"}
-          </div>
-        </div>
-      </div>
-      <Popup
-        show={showPopUp}
-        setAmmountfn={setAmmount}
-        sbmtFn={transactionhandler}
-        to={toAccount}
-        onClose={handleClosePopUp}
-      />
-
-      {/* Balance card and search input */}
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-blue-50 p-4 rounded-xl shadow-sm dark:bg-gray-800">
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
-              Your Balance
-            </h2>
-            <p className="text-2xl font-bold text-blue-600 dark:text-white">
-              ₹ {balance}
-            </p>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
-              Search Users
-            </label>
-            <div className="relative">
-              <input
-                className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-                type="text"
-                placeholder="Search by username or firstname..."
-                onChange={(e) => setsearch(e.target.value)}
-              />
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
-                🔍
+      <div className="flex min-h-screen w-full bg-gray-50 dark:bg-gray-950">
+        <Sidebar />
+     
+        <div className={`flex-1 flex flex-col  transition-all duration-300 ease-in-out ${
+      sidebarOpen ? "md:ml-64" : ""}`}>
+          {/* Appbar */}
+          <div className="flex justify-between items-center px-6 py-4 shadow-md mx-auto w-full  bg-white rounded-xl mt-6 dark:bg-gray-800 transition-all">
+            <div>
+              <button
+                className="bg-amber-100 mx-8"
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+              >
+                <Menu />
+              </button>
+              <span className="text-2xl font-bold text-blue-600 dark:text-white">
+                Paymt
               </span>
             </div>
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                {firstname} {lastname}
+              </span>
+              <span>
+                {" "}
+                <Button onClick={logout} children={"Logout"} />{" "}
+              </span>
+              <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold dark:bg-blue-800 dark:text-white">
+                {firstname ? firstname.substring(0, 2) : "?"}
+              </div>
+            </div>
           </div>
-        </div>
-        <div>
-          {search.length == 0 ? (
-            <div></div>
-          ) : (
-            <div className="mt-8">
-              {users.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {users.map((user) => (
-                    <div
-                      key={user.username}
-                      className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700"
-                    >
-                      <IdInfo name={user.username} />
-                      <IdInfo name={user.firstname} />
-                      <div className=" flex justify-end">
-                        <button
-                          className=" mr-2 px-4 py-1 rounded-2xl font-mono bg-green-400 text-xl "
-                          onClick={() => {
-                            setToaccount(user._id);
-                            handleOpenPopUp();
-                          }}
-                        >
-                          send
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+
+          <Popup
+            show={showPopUp}
+            setAmountfn={setAmount}
+            sbmtFn={transactionhandler}
+            to={toAccount}
+            onClose={handleClosePopUp}
+          />
+
+          {/* Balance card and search input */}
+          <div className="max-w-6xl mx-auto w-full px-4 py-6">
+            <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-blue-50 p-4 rounded-xl shadow-sm dark:bg-gray-800">
+                <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">
+                  Your Balance
+                </h2>
+                <p className="text-2xl font-bold text-blue-600 dark:text-white">
+                  $ {balance}
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
+                  Search Users
+                </label>
+                <div className="relative">
+                  <input
+                    className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                    type="text"
+                    placeholder="Search by username or firstname..."
+                    onChange={(e) => setsearch(e.target.value)}
+                  />
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500">
+                    🔍
+                  </span>
                 </div>
+              </div>
+            </div>
+            <div>
+              <div > 
+            
+                {transaction &&
+                <TransactionHistory/>
+                }
+              </div>
+              {search.length == 0 ? (
+                <div></div>
               ) : (
-                <div className="text-gray-500 dark:text-gray-400 mt-6 text-center italic">
-                  No users found.
+                <div className="mt-8">
+                  {users.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {users.map((user) => (
+                        <div
+                          key={user.username}
+                          className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700"
+                        >
+                          <IdInfo name={user.username} />
+                          <IdInfo name={user.firstname} />
+                          <div className=" flex justify-end">
+                            <button
+                              className=" mr-2 px-4 py-1 rounded-2xl font-mono bg-green-400 text-xl "
+                              onClick={() => {
+                                setToaccount(user._id);
+                                handleOpenPopUp();
+                              }}
+                            >
+                              send
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-gray-500 dark:text-gray-400 mt-6 text-center italic">
+                      No users found.
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </>

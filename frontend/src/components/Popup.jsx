@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Popup({ show, setAmmountfn, sbmtFn, to , onClose }) {
+function Popup({ show, setAmountfn, sbmtFn, to , onClose }) {
   if (!show) {
     return null; // Don't render if not visible
   }
@@ -28,7 +28,7 @@ function Popup({ show, setAmmountfn, sbmtFn, to , onClose }) {
               id="ammount"
               type="text"
               placeholder="200"
-              onChange={(e) => setAmmountfn(e.target.value)}
+              onChange={(e) => setAmountfn(e.target.value)}
               className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white dark:border-gray-600"
             />
           </div>

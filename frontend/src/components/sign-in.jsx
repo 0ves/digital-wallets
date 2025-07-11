@@ -21,9 +21,9 @@ export default function Signin() {
   
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Form submitted");
-    console.log(username);
-    console.log(password);
+    // console.log("Form submitted");
+    // console.log(username);
+    // console.log(password);
 
     setError('')
     try {
@@ -57,8 +57,7 @@ export default function Signin() {
   }
   };
   return (
-    <div
-      className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
+    <div className="shadow-input mx-auto w-full max-w-lg  rounded-none p-2  mt-60 lg:mt-12 bg-white  md:max-w-md md:rounded-2xl md:p-8 dark:bg-black ">
       <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
         Welcome to paymt
       </h2>

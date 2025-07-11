@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const {authmiddleware} = require("../authMiddleware.js");
-const { Account } = require("../db.js");
+const { Account, Transaction } = require("../db.js");
 const { default: mongoose } = require("mongoose");
 const { transformer } = require("zod");
 // const zod = require("zod")
@@ -25,7 +25,7 @@ router.get("/balance", authmiddleware,async(req, res)=>{
 router.post("/transfer",authmiddleware,async(req,res)=>{
     const session = await mongoose.startSession()
     session.startTransaction()
-    const {to ,ammount} = req.body
+    const {to ,amount} = req.body
 
     const account = await Account.findOne({userId: req.userId}).session(session)
     const toaccount = await Account.findOne({userId:to}).session(session) 
@@ -37,23 +37,33 @@ router.post("/transfer",authmiddleware,async(req,res)=>{
         })
 
     }
-    if ( !account||account.balance < ammount){
+    if ( !account||account.balance < amount){
         await session.abortTransaction()
         return res.status(400).json({msg:"insufficient balence"})
     }
 
-  await Account.updateOne({userId:req.userId},{$inc:{balance:-ammount}}).session(session)
-  await Account.updateOne({userId:to},{$inc:{balance:ammount}}).session(session)
-  const fromAccount=await Account.findOne({userId:req.userId}).session(session)
-  const toAccount= await Account.findOne({userId:to}).session(session)
- 
+  await Account.updateOne({userId:req.userId},{$inc:{balance:-amount}}).session(session)
+  await Account.updateOne({userId:to},{$inc:{balance:amount}}).session(session)
+//   const fromAccount=await Account.findOne({userId:req.userId}).session(session)
+//   const toAccount= await Account.findOne({userId:to}).session(session)
+    await Transaction.create([{userId:req.userId, touserId:to , amount:amount}],{session})
    
     
    await session.commitTransaction()
-
+    session.endSession();
+    
     res.json({mes:"Transfer successfull" ,
        
-        transformerd: ammount
+        transformerd: amount
+    })
+})
+
+router.get('/transactions',authmiddleware,async (req,res)=>{
+    const transactions = await Transaction.find({userId:req.userId})
+    console.log(transactions);
+    
+    res.json({
+        transactions:transactions
     })
 })
 

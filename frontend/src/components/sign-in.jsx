@@ -58,7 +58,7 @@ export default function Signin() {
   };
   return (
     <div className="shadow-input mx-auto w-full max-w-lg  rounded-none p-2  mt-60 lg:mt-12 bg-white  md:max-w-md md:rounded-2xl md:p-8 dark:bg-black ">
-    <div className=" absolute top-0 left-0 m-0.5">
+    <div className=" absolute top-2 right-2 m-0.5">
 
      <DarkModeToggle/>
     </div>
@@ -120,6 +120,7 @@ export default function Signin() {
             </span>
             <BottomGradient />
           </button>
+          <Link to='/signup'> <p>dont have account? click hrer</p></Link>
         </div>
       </form>
     </div>

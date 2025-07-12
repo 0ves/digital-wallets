@@ -3,12 +3,13 @@ import axios from "axios"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import DarkModeToggle from "./ui/darkmodetoggle";
 import {
   IconBrandGithub,
   IconBrandGoogle,
   IconBrandOnlyfans,
 } from "@tabler/icons-react";
-
+import { Link } from "react-router-dom";
 
 export default function SignupFormDemo() {
 
@@ -51,6 +52,10 @@ export default function SignupFormDemo() {
   return (
     <div
       className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
+     <div className=" absolute top-2 right-2 m-0.5">
+
+     <DarkModeToggle/>
+    </div>
       <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
         Welcome to paymt
       </h2>
@@ -123,6 +128,7 @@ export default function SignupFormDemo() {
             </span>
             <BottomGradient />
           </button>
+          <Link to='/signin'><p>allrady have an account? click here.</p></Link>
         </div>
       </form>
     </div>

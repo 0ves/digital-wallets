@@ -34,7 +34,7 @@ const userbulkSchema = zod.object({
 // dont forget to make change 1 at line 15
 router.post("/signup",async(req,res)=>{
     const body= req.body;
-    console.log(body);
+    // console.log(body);
     
     const {success}= signupSchema.safeParse(req.body)
     if (!success) {

@@ -37,6 +37,9 @@ router.post("/transfer",authmiddleware,async(req,res)=>{
         })
 
     }
+    if(amount<=0){
+        res.status(400).json({msg:"invalid input"})
+    }
     if ( !account||account.balance < amount){
         await session.abortTransaction()
         return res.status(400).json({msg:"insufficient balence"})
@@ -76,7 +79,7 @@ router.get('/transactions',authmiddleware,async (req,res)=>{
     return rt;
 });
 
-     console.log(transactions);
+    //  console.log(transactions);
     res.json({
         transactions:transactions
     })

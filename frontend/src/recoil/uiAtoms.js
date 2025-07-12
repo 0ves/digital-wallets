@@ -15,3 +15,12 @@ export const transactionState = atom({
     key: 'transaction',
     default:[]
 })
+
+export const themestate = atom({
+    key:"themestate",
+    default:false
+})
+export const settingState = atom({
+    key:'setting',
+    default:{}
+})

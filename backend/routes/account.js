@@ -59,9 +59,24 @@ router.post("/transfer",authmiddleware,async(req,res)=>{
 })
 
 router.get('/transactions',authmiddleware,async (req,res)=>{
-    const transactions = await Transaction.find({userId:req.userId})
-    console.log(transactions);
+    const transactionsRow = await Transaction.find({$or:[{userId:req.userId},{touserId:req.userId}]}).populate({path:'userId', select: 'firstname lastname'}).populate({path:'touserId', select: 'firstname lastname'}).lean()
+   
+    //console.log(transactionsRow);
     
+   const transactions = transactionsRow.map(rt => {
+    const userId = rt.userId?._id?.toString();
+    const touserId = rt.touserId?._id?.toString();
+    const currentUserId = req.userId.toString();
+
+    if (userId === currentUserId) {
+        rt.status = "send";
+    } else if (touserId === currentUserId) {
+        rt.status = "receive";
+    }
+    return rt;
+});
+
+     console.log(transactions);
     res.json({
         transactions:transactions
     })

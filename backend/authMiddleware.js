@@ -3,7 +3,7 @@ const jwt_secret = require("./config");
 
 function authmiddleware (req , res, next){
      const authHeader = req.headers.authorization;
-    console.log(authHeader);
+    // console.log(authHeader);
     
     if(!authHeader || !authHeader.startsWith('Bearer ')){
         return res.status(403).json({msg:"you are not authrized"});

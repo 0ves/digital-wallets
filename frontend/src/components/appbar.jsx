@@ -8,10 +8,15 @@ import Popup from "./popup";
 import { Button } from "./ui/stateful-button";
 import { Sliders } from "lucide-react";
 import Sidebar from "./Sidebar";
-import { sidebarOpenState, amountState ,transactionState } from "../recoil/uiAtoms";
+import {
+  sidebarOpenState,
+  amountState,
+  transactionState,
+} from "../recoil/uiAtoms";
 import { useRecoilState } from "recoil";
 import { Menu } from "lucide-react";
 import TransactionHistory from "./Transaction-history";
+import clsx from "clsx";
 
 function Appbar() {
   const [username, setUsername] = useState("");
@@ -23,7 +28,7 @@ function Appbar() {
   const [search, setsearch] = useState("");
 
   const [toAccount, setToaccount] = useState("");
-  const [transaction ,setTransaction] = useRecoilState(transactionState)
+  const [transaction, setTransaction] = useRecoilState(transactionState);
   const [amount, setAmount] = useRecoilState(amountState);
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenState);
   const [showPopUp, setShowPopUp] = useState(false);
@@ -41,6 +46,7 @@ function Appbar() {
 
   const logout = () => {
     localStorage.removeItem("token");
+    setTransaction([])
     navigate("/signin");
   };
 
@@ -82,10 +88,12 @@ function Appbar() {
     const fetchProfile = async () => {
       try {
         const respons = await apiClient.get("/user/me");
+       
         setUsername(respons.data.username);
         setfirstname(respons.data.firstname);
         setLastname(respons.data.lastname);
         setbalance(respons.data.balance);
+        
       } catch (error) {
         console.log(error);
         navigate("/signin");
@@ -98,32 +106,42 @@ function Appbar() {
     <>
       <div className="flex min-h-screen w-full bg-gray-50 dark:bg-gray-950">
         <Sidebar />
-     
-        <div className={`flex-1 flex flex-col  transition-all duration-300 ease-in-out ${
-      sidebarOpen ? "md:ml-64" : ""}`}>
+
+        <div
+          className={`flex-1 flex flex-col  transition-all duration-300 ease-in-out ${
+            sidebarOpen ? "md:ml-64" : ""
+          }`}
+        >
           {/* Appbar */}
-          <div className="flex justify-between items-center px-6 py-4 shadow-md mx-auto w-full  bg-white rounded-xl mt-6 dark:bg-gray-800 transition-all">
+          <div className="flex justify-between items-center px-6 py-4 shadow-md mx-auto w-full  bg-white rounded-xl mt-6 dark:bg-gray-800 ">
             <div>
               <button
-                className="bg-amber-100 mx-8"
+                className=" mx-8 "
                 onClick={() => setSidebarOpen(!sidebarOpen)}
               >
                 <Menu />
               </button>
-              <span className="text-2xl font-bold text-blue-600 dark:text-white">
+              <span className="text-2xl font-bold text-blue-600  dark:text-white">
                 Paymt
               </span>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                {firstname} {lastname}
-              </span>
+              
               <span>
                 {" "}
                 <Button onClick={logout} children={"Logout"} />{" "}
               </span>
+              <div className="relative group inline-block mr-6">
+
               <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold dark:bg-blue-800 dark:text-white">
                 {firstname ? firstname.substring(0, 2) : "?"}
+              </div>
+                <div className="bg-gray-100/85 bg-blend-saturation text-black  p-6 py-8 text-center -z-10 
+                absolute right-1/2 translate-x-1/6 translate-y-1/6
+                rounded-2xl opacity-0 group-hover:opacity-100 group-hover:z-10 overflow-x-hidden">
+                  <div>{firstname}</div>
+                  <div>{lastname}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -166,16 +184,15 @@ function Appbar() {
               </div>
             </div>
             <div>
-              <div > 
-            
-                {transaction &&
-                <TransactionHistory/>
-                }
-              </div>
+              <div>{transaction && <TransactionHistory />}</div>
               {search.length == 0 ? (
                 <div></div>
               ) : (
-                <div className="mt-8">
+                <div className=" relative mt-8">
+                  <button className="  text-xl absolute right-1/36 -top-1/2  p-2 px-4 m-2 rounded-3xl hover:bg-orange-200  hover:text-purple-500 "
+                   onClick={()=>setsearch('') 
+                  
+                  }>X</button>
                   {users.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {users.map((user) => (
@@ -187,7 +204,7 @@ function Appbar() {
                           <IdInfo name={user.firstname} />
                           <div className=" flex justify-end">
                             <button
-                              className=" mr-2 px-4 py-1 rounded-2xl font-mono bg-green-400 text-xl "
+                              className=" mr-2 px-4  rounded-2xl font-mono text-white bg-green-500 hover:bg-green-400 text-xl "
                               onClick={() => {
                                 setToaccount(user._id);
                                 handleOpenPopUp();
@@ -214,9 +231,9 @@ function Appbar() {
   );
 }
 
-function IdInfo({ name = "name" }) {
+function IdInfo({ name = "name"  }) {
   return (
-    <div className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">
+    <div className=" text-l  text-gray-800 dark:text-gray-200  font-mono font"  >
       {name}
     </div>
   );

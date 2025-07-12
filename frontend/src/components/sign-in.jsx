@@ -1,9 +1,9 @@
-
 import React,{ useState } from "react";
 import axios from  "axios"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import DarkModeToggle from "./ui/darkmodetoggle";
 import { Link, Route, useNavigate } from "react-router-dom";
 import {
   IconBrandGithub,
@@ -58,6 +58,10 @@ export default function Signin() {
   };
   return (
     <div className="shadow-input mx-auto w-full max-w-lg  rounded-none p-2  mt-60 lg:mt-12 bg-white  md:max-w-md md:rounded-2xl md:p-8 dark:bg-black ">
+    <div className=" absolute top-0 left-0 m-0.5">
+
+     <DarkModeToggle/>
+    </div>
       <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
         Welcome to paymt
       </h2>

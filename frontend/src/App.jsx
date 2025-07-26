@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Signin from './components/sign-in';
 import Appbar  from './components/appbar';
 import TransactionHistory from './components/Transaction-history';
-import Home from './Home.jsx';
+import Home from './components/Home';
+
 function App() {
   const [count, setCount] = useState(0)
 

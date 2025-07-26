@@ -1,6 +1,8 @@
+const {DATABASE_URL}= require('./config')
+// console.log(DATABASE_URL);
 
 const mongoose = require("mongoose")
-mongoose.connect("mongodb+srv://ovesnadaf:tuW2yF1UDwW6hT5Y@clusterpayment.ebzfmhn.mongodb.net/")
+mongoose.connect(DATABASE_URL)
 
 const accountSchema = new mongoose.Schema({
     userId:{

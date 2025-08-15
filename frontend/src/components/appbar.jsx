@@ -6,7 +6,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Popup from "./popup";
 import { Button } from "./ui/stateful-button";
-import { Sliders } from "lucide-react";
 import Sidebar from "./Sidebar";
 import {
   sidebarOpenState,
@@ -16,7 +15,7 @@ import {
 import { useRecoilState } from "recoil";
 import { Menu } from "lucide-react";
 import TransactionHistory from "./Transaction-history";
-import clsx from "clsx";
+
 
 function Appbar() {
   const [username, setUsername] = useState("");
@@ -32,6 +31,7 @@ function Appbar() {
   const [amount, setAmount] = useRecoilState(amountState);
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenState);
   const [showPopUp, setShowPopUp] = useState(false);
+  const url = import.meta.VITE_URL 
 
   const handleOpenPopUp = () => {
     setShowPopUp(true);
@@ -76,7 +76,7 @@ function Appbar() {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/user/bulk?filter=${search}`
+        `${url}/api/v1/user/bulk?filter=${search}`
       );
       setUsers(response.data.users);
     } catch (error) {

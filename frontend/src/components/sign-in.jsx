@@ -13,7 +13,7 @@ import {
 
 
 export default function Signin() {
-
+  
   const [username , setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [error , setError] = useState("")
@@ -24,10 +24,11 @@ export default function Signin() {
     // console.log("Form submitted");
     // console.log(username);
     // console.log(password);
+    const url= import.meta.VITE_URL 
 
     setError('')
     try {
-      const response =await axios.post("http://localhost:3000/api/v1/user/signin",
+      const response =await axios.post(`${url}/api/v1/user/signin`,
         {
           username:username,
           password: password

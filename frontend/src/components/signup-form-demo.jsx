@@ -17,11 +17,11 @@ export default function SignupFormDemo() {
   const [ password, setPassword] = useState('')
   const [ firstname, setFirstname] = useState('')
   const [ lastname, setLastname] = useState('')
-
+  const url = import.meta.VITE_URL 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      const response = await axios.post("http://localhost:3000/api/v1/user/signup",{
+      const response = await axios.post(`${url}/api/v1/user/signup`,{
       username:username,
       password:password,
       firstname:firstname,

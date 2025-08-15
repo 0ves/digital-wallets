@@ -1,16 +1,16 @@
 const jwt = require("jsonwebtoken");
-const jwt_secret = require("./config");
+const {JWT_SECRET} = require("./config");
 
 function authmiddleware (req , res, next){
      const authHeader = req.headers.authorization;
-    // console.log(authHeader);
+    console.log(authHeader);
     
     if(!authHeader || !authHeader.startsWith('Bearer ')){
         return res.status(403).json({msg:"you are not authrized"});
     }
     const token = authHeader.split(' '   )[1];
     try {
-        const decode = jwt.verify(token, jwt_secret)
+        const decode = jwt.verify(token, JWT_SECRET)
         if(decode.userId){
         req.userId = decode.userId;
         console.log("this is userID :" ,decode.userId );

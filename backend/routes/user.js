@@ -1,6 +1,6 @@
 const express = require("express")
 const { string } = require("zod")
-const JWT_SECRET = require("../config.js")
+const {JWT_SECRET} = require("../config.js")
 const { User,Account } = require("../db.js")
 const router= express.Router()
 const zod = require("zod")
@@ -95,7 +95,7 @@ router.post("/signup",async(req,res)=>{
             username:data.username,
             password:data.password
         })
-        // console.log(user);
+         console.log(user);
         
         if (user) {
             const token= jwt.sign({
@@ -131,6 +131,7 @@ router.post("/signup",async(req,res)=>{
     })
 
     router.get("/me", authmiddleware,async(req,res)=>{
+        console.log("here")
         const user = await User.findOne({_id:req.userId})
         const account = await Account.findOne({userId: req.userId})
         console.log(user.username);

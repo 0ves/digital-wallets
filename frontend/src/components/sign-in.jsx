@@ -21,10 +21,10 @@ export default function Signin() {
   
   const handleSubmit = async(e) => {
     e.preventDefault();
-    // console.log("Form submitted");
+    console.log("Form submitted");
     // console.log(username);
     // console.log(password);
-    const url= import.meta.VITE_URL 
+    const url= import.meta.env.VITE_URL
 
     setError('')
     try {
@@ -64,7 +64,7 @@ export default function Signin() {
      <DarkModeToggle/>
     </div>
       <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
-        Welcome to paymt
+        Welcome to paymt 
       </h2>
      
       <form className="my-8" onSubmit={handleSubmit}>

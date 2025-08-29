@@ -31,7 +31,7 @@ function Appbar() {
   const [amount, setAmount] = useRecoilState(amountState);
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarOpenState);
   const [showPopUp, setShowPopUp] = useState(false);
-  const url = import.meta.VITE_URL 
+  const url = import.meta.env.VITE_URL 
 
   const handleOpenPopUp = () => {
     setShowPopUp(true);
@@ -189,7 +189,7 @@ function Appbar() {
                 <div></div>
               ) : (
                 <div className=" relative mt-8">
-                  <button className="  text-xl absolute right-1/36 -top-1/2  p-2 px-4 m-2 rounded-3xl hover:bg-orange-200  hover:text-purple-500 "
+                  <button className="  text-xl  right-1/36 -top-1/2  p-2 px-4 m-2 rounded-3xl hover:bg-orange-200  hover:text-purple-500 "
                    onClick={()=>setsearch('') 
                   
                   }>X</button>

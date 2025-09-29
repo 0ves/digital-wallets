@@ -4,7 +4,7 @@ import { useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Popup from "./popup";
+import Popup from "./Popup";
 import { Button } from "./ui/stateful-button";
 import Sidebar from "./Sidebar";
 import {

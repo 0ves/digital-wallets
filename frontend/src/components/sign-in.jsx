@@ -21,7 +21,7 @@ export default function Signin() {
   
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Form submitted");
+    // console.log("Form submitted");
     // console.log(username);
     // console.log(password);
     const url= import.meta.env.VITE_URL
